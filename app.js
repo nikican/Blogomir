@@ -17,7 +17,7 @@ app.use(express.static("public"));
 
 //mongoose/model config
 var blogSchema = new mongoose.Schema({
-    name:String,
+    title:String,
     image: {type: String, default: "https://source.unsplash.com/category/nature/1600x900"},
     body:String,
     date: {type: Date, default: Date.now}
@@ -26,7 +26,6 @@ var blogSchema = new mongoose.Schema({
 var Blog = mongoose.model("Blog", blogSchema);
 
 // RESTful routes
-
 //landing
 app.get("/", function(req, res){
     res.redirect("/blogs");
@@ -36,7 +35,7 @@ app.get("/", function(req, res){
 app.get("/blogs", function(req, res){
     Blog.find({},function(error, blogs){
         if(!error){
-            console.log(`Blog retrieved ${blogs}`)
+            console.log("Blogs retrieved")
             res.render("blogIndex", {blogs:blogs});
         }else{
             console.log("Retrieve error!");
@@ -44,7 +43,26 @@ app.get("/blogs", function(req, res){
     });  
 });
 
+//new route
+app.get("/blogs/new", function(req, res){
+    res.render("newBlog");
+});
 
+//create route
+app.post("/blogs", function(req, res){
+    var newBlog = req.body.blog;
+    
+    console.log(newBlog);
+    
+    Blog.create(newBlog, function(error, blog){
+        if(!error){
+            console.log(`Blog ${blog.title} saved.`);
+            res.redirect("/blogs");
+        }else{
+            console.log("Save error!");
+        }
+    });
+});
 
 //start server with C9 IP and port
 app.listen(process.env.PORT, process.env.IP, function (){
