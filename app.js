@@ -105,6 +105,20 @@ app.put("/blogs/:id", function(req, res){
     });
 });
 
+//delete
+app.delete("/blogs/:id", function(req, res){
+    var blogId = req.params.id;
+    
+    Blog.findByIdAndRemove(blogId,function(error, blog){
+        if(!error){
+            console.log(`Blog ${blog.title} deleted.`)
+             res.redirect("/blogs");
+        }else{
+            console.log("Delete failed!");
+        }
+    });
+});
+
 //start server with C9 IP and port
 app.listen(process.env.PORT, process.env.IP, function (){
     console.log(`Server started at ${process.env.IP}:${process.env.PORT}`);
