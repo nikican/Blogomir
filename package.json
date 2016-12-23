@@ -1,0 +1,26 @@
+{
+  "name": "blogomir",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikican/Blogomir.git"
+  },
+  "keywords": [
+    "blog",
+    "REST",
+    "MongoDB",
+    "Semantic",
+    "UI"
+  ],
+  "author": "Nikica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikican/Blogomir/issues"
+  },
+  "homepage": "https://github.com/nikican/Blogomir#readme"
+}
