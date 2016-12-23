@@ -1,19 +1,15 @@
-var bodyParser  = require("body-parser"),
-mongoose        = require("mongoose"),
-express         = require("express"),
-app             = express();
+var bodyParser = require("body-parser"),
+methodOverride = require("method-override"),
+mongoose       = require("mongoose"),
+express        = require("express"),
+app            = express();
 
-//DB connection
+// app config
 mongoose.connect("mongodb://localhost/blogomir");
-
-//template engine
 app.set("view engine", "ejs");
-
-//body parser
-app.use(bodyParser.urlencoded({encoded:true}));
-
-//serve "public" folder
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 //mongoose/model config
 var blogSchema = new mongoose.Schema({
@@ -70,10 +66,41 @@ app.get("/blogs/:id", function(req, res){
     
     Blog.findById(blogId,function(error, blog){
         if(!error){
-            console.log(`Blog ${blog.title} found.`)
+            console.log(`Blog ${blog.title} shown.`)
             res.render("showBlog", {blog:blog});
         }else{
             console.log("Blog not found!");
+        }
+    });
+});
+
+//edit
+app.get("/blogs/:id/edit", function(req, res){
+    var blogId = req.params.id;
+    
+    Blog.findById(blogId,function(error, blog){
+        if(!error){
+            console.log(`Blog ${blog.title} edit.`)
+            res.render("editBlog", {blog:blog});
+        }else{
+            console.log("Blog not found!");
+        }
+    });
+});
+
+//update
+app.put("/blogs/:id", function(req, res){
+    var blogId = req.params.id;
+    
+    var updatedBlog=req.body.blog;
+    
+    Blog.findByIdAndUpdate(blogId, updatedBlog, function(error, blog){
+        if(!error){
+            console.log(`Blog ${blog.title} updated.`)
+            res.redirect("/blogs/" +blogId);
+        }else{
+            console.log("Blog update failed!");
+            res.redirect("/blogs");
         }
     });
 });
