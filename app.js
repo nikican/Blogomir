@@ -13,14 +13,14 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({encoded:true}));
 
 //serve "public" folder
-app.use(express.statitc("public"));
+app.use(express.static("public"));
 
 //mongoose/model config
 var blogSchema = new mongoose.Schema({
     name:String,
-    image:String,
+    image: {type: String, default: "https://source.unsplash.com/category/nature/1600x900"},
     body:String,
-    date: {type: Date, defualt:Date.now}
+    date: {type: Date, default: Date.now}
 });
 
 var Blog = mongoose.model("Blog", blogSchema);
@@ -43,6 +43,8 @@ app.get("/blogs", function(req, res){
         }
     });  
 });
+
+
 
 //start server with C9 IP and port
 app.listen(process.env.PORT, process.env.IP, function (){

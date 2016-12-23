@@ -1,3 +1,4 @@
+<% include ./partials/header%>
 <h1> INDEX PAGE!!!</h1>
 
 <%blogs.forEach(function(blog){%>
@@ -5,6 +6,8 @@
         <h2><%=blog.title%></h2>
         <img src="<%=blog.image%>"/>
         <span><%=blog.created%></span>
-        <p><%=blog.bod%>y</p>
+        <p><%=blog.body%></p>
     </div>
 <%});%>
+
+<% include ./partials/footer%>
