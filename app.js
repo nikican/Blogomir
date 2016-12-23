@@ -64,6 +64,20 @@ app.post("/blogs", function(req, res){
     });
 });
 
+//show
+app.get("/blogs/:id", function(req, res){
+    var blogId = req.params.id;
+    
+    Blog.findById(blogId,function(error, blog){
+        if(!error){
+            console.log(`Blog ${blog.title} found.`)
+            res.render("showBlog", {blog:blog});
+        }else{
+            console.log("Blog not found!");
+        }
+    });
+});
+
 //start server with C9 IP and port
 app.listen(process.env.PORT, process.env.IP, function (){
     console.log(`Server started at ${process.env.IP}:${process.env.PORT}`);
